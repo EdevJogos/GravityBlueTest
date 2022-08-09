@@ -6,6 +6,7 @@ public class GUIManager : MonoBehaviour
 {
     public Transform displaysHolder;
 
+    private int _dialogIndex = 0;
     private Display _activeDisplay;
     private Dictionary<Displays, Display> _displays = new Dictionary<Displays, Display>();
 
@@ -51,6 +52,13 @@ public class GUIManager : MonoBehaviour
                 ActiveDisplay(p_display, p_onShowCompleted, p_showRatio);
             }
         }
+    }
+
+    public void ShowDialog(string p_speaker, string p_other, Dialog p_dialog, Action<DialogResult> p_resultAction)
+    {
+        DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;
+
+        __dialogDisplay.UpdateDialogBox(p_speaker, p_dialog.dialogLines[_dialogIndex].textLine);
     }
 
     private void ActiveDisplay(Displays p_display, Action p_onShowCompleted, float p_showRatio)
@@ -101,4 +109,5 @@ public class GUIManager : MonoBehaviour
                 break;
         }
     }
+
 }

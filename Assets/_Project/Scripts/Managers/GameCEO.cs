@@ -15,6 +15,7 @@ public class GameCEO : MonoBehaviour
     public GameState state;
     #endif
 
+
     public GUIManager guiManager;
     public InputManager inputManager;
     public CameraManager cameraManager;
@@ -43,6 +44,8 @@ public class GameCEO : MonoBehaviour
 
     private void Initiate()
     {
+        NPC.OnDialogRequested += NPC_OnDialogRequested;
+
         cameraManager.Initiate();
         audioManager.Initate();
         guiManager.Initiate();
@@ -51,6 +54,7 @@ public class GameCEO : MonoBehaviour
     public void Initialize()
     {
         audioManager.Initialize();
+        inputManager.Initialize();
         guiManager.Initialize();
     }
 
@@ -77,6 +81,16 @@ public class GameCEO : MonoBehaviour
             yield return null;
         }
     }
+
+    #region //-----------------NPC------------------
+
+    private void NPC_OnDialogRequested(string p_speaker, string p_other, Dialog p_dialog, System.Action<DialogResult> p_resultAction)
+    {
+        inputManager.SwitchInput(Inputs.DIALOG);
+        guiManager.ShowDialog(p_speaker, p_other, p_dialog, p_resultAction);
+    }
+
+    #endregion
 
     //-----------------INPUT MANAGER------------------
 

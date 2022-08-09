@@ -2,19 +2,36 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public PlayerInputsHandler _playerInputHandler;
+    public PlayerInputsHandler playerInputHandler;
 
     protected override void Awake()
     {
         base.Awake();
 
-        _playerInputHandler.Initiate();
+        playerInputHandler.onMovementPerformed += PlayerInputHandler_onMovementPerformed;
+        playerInputHandler.onInteractRequested += _playerInputHandler_onInteractRequested;
+
+        playerInputHandler.Initiate();
     }
+
+    
 
     protected override void Start()
     {
         base.Start();
-
-        _playerInputHandler.Initialize();
     }
+
+    #region INPUT_HANDLER
+
+    private void PlayerInputHandler_onMovementPerformed(Vector2 p_input)
+    {
+        _movementHandler.SetInput(p_input);
+    }
+
+    private void _playerInputHandler_onInteractRequested()
+    {
+        _interactionHandler.RequestInteraction();
+    }
+
+    #endregion
 }

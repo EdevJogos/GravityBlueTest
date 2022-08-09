@@ -6,8 +6,6 @@
     STARTING,
     PLAY,
     PAUSE,
-    GAME_OVER,
-    VICTORY,
 }
 
 public enum DisplayTypes
@@ -22,12 +20,11 @@ public enum Displays
     HUD,
     INTRO,
     LOADING,
-    GAME_OVER,
-    VICTORY,
     PAUSE,
     CREDITS,
     SETTINGS,
     TUTORIAL,
+    DIALOG,
 }
 
 public enum SFXOccurrence
@@ -66,4 +63,25 @@ public enum Characters
 public enum Prefabs
 {
 
+}
+
+public enum DialogActions
+{
+    TALK,
+    OPEN_SHOP,
+    CONTINUE_DIALOG,
+    EXIT,
+}
+
+public enum Inputs
+{
+    PLAYER,
+    DIALOG,
+}
+
+public enum Interactions
+{
+    PICK_ITEM,
+    NPC,
+    NONE,
 }

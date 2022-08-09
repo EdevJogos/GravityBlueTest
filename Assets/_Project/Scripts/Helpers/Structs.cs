@@ -62,3 +62,35 @@ public class RandomNoRepeat
         _indexes.AddRange(_range);
     }
 }
+
+
+[System.Serializable]
+public struct Dialog
+{
+    [NonReorderable] public int[] condition;
+    [NonReorderable] public DialogChoice[] choices;
+    [NonReorderable] public DialogLine[] dialogLines;
+}
+
+
+/// <summary>
+/// Can be used to add portrait and other differente information for each text line.
+/// </summary>
+[System.Serializable]
+public struct DialogLine
+{
+    public string textLine;
+}
+
+[System.Serializable]
+public struct DialogChoice
+{
+    public int id;
+    public string choiceText;
+}
+
+public struct DialogResult
+{
+    public DialogActions action;
+    public int data;
+}
