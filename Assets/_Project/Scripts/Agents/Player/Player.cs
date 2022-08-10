@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : Character
 {
     public PlayerInputsHandler playerInputHandler;
+
+    [System.NonSerialized] public PlayerInventory inventory;
 
     protected override void Awake()
     {
@@ -11,7 +14,7 @@ public class Player : Character
         playerInputHandler.onMovementPerformed += PlayerInputHandler_onMovementPerformed;
         playerInputHandler.onInteractRequested += _playerInputHandler_onInteractRequested;
 
-        playerInputHandler.Initiate();
+        inventory = new PlayerInventory();
     }
 
     
@@ -19,6 +22,17 @@ public class Player : Character
     protected override void Start()
     {
         base.Start();
+
+        StartCoroutine(RoutineSetBasicItems());
+    }
+
+    private IEnumerator RoutineSetBasicItems()
+    {
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log(ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENT).Count);
+        ItemData __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENT)[0];
+        inventory.AddToInventory(__itemData, 5);
     }
 
     #region INPUT_HANDLER

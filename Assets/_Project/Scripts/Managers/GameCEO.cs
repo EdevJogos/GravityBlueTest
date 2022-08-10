@@ -20,8 +20,9 @@ public class GameCEO : MonoBehaviour
     public InputManager inputManager;
     public CameraManager cameraManager;
     public AudioManager audioManager;
-    public AgentsManager agentsManager;
+    public PlayerManager playerManager;
     public StageManager stageManager;
+    public NPCManager nPCManager;
 
     private void Awake()
     {
@@ -44,11 +45,17 @@ public class GameCEO : MonoBehaviour
 
     private void Initiate()
     {
-        NPC.OnDialogRequested += NPC_OnDialogRequested;
+        inputManager.dialogInputs.onConfirmRequested += DialogInputs_onConfirmRequested;
+        inputManager.dialogInputs.onSelectOptionRequested += DialogInputs_onSelectOptionRequested;
+
+        nPCManager.onStartDialogRequested += NPCManager_onStartDialogRequested;
+        nPCManager.onShopRequested += NPCManager_onShopRequested;
 
         cameraManager.Initiate();
         audioManager.Initate();
         guiManager.Initiate();
+        inputManager.Initiate();
+        nPCManager.Initiate();
     }
 
     public void Initialize()
@@ -82,18 +89,41 @@ public class GameCEO : MonoBehaviour
         }
     }
 
-    #region //-----------------NPC------------------
+    #region //-----------------NPC MANAGER------------------
 
-    private void NPC_OnDialogRequested(string p_speaker, string p_other, Dialog p_dialog, System.Action<DialogResult> p_resultAction)
+    private void NPCManager_onStartDialogRequested(string p_requested, string p_requisitioner, Dialog p_dialog)
     {
+        ChangeGameState(GameState.DIALOG);
         inputManager.SwitchInput(Inputs.DIALOG);
-        guiManager.ShowDialog(p_speaker, p_other, p_dialog, p_resultAction);
+        guiManager.ShowDialog(p_requested, p_requisitioner, p_dialog);
     }
 
     #endregion
 
-    //-----------------INPUT MANAGER------------------
+    #region //-----------------INPUT MANAGER------------------
 
+    private void DialogInputs_onSelectOptionRequested(Vector2 p_direction)
+    {
+        //Debug.Log("DialogInputs_onSelectOptionRequested " + p_direction);
+        guiManager.UpdateSelectedChoice(p_direction);
+    }
+
+    private void DialogInputs_onConfirmRequested()
+    {
+        Debug.Log("DialogInputs_onConfirmRequested");
+        nPCManager.OnDialogOptionConfirmed(guiManager.GetDialogResult());
+    }
+
+    private void NPCManager_onShopRequested(NPC p_npc, ShopData p_shopData)
+    {
+        Debug.Log("NPCManager_onShopRequested");
+        ChangeGameState(GameState.SHOP);
+        inputManager.SwitchInput(Inputs.SHOP);
+        guiManager.UpdateDisplay(Displays.SHOP, 0, new object[2] { p_shopData, playerManager.PlayerInventory });
+        guiManager.ShowDisplay(Displays.SHOP);
+    }
+
+    #endregion
     //-----------------GUI MANAGER------------------
 
     //-----------------SCORE MANAGER----------------

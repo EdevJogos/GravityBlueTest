@@ -8,9 +8,20 @@ public class InputManager : MonoBehaviour
     public static Vector2 MouseWorld { get { return CameraManager.MainCamera.ScreenToWorldPoint(Input.mousePosition); } }
 
     public DialogInputsHandler dialogInputs;
+    public ShopInputHandler shopInputs;
     public PlayerInputsHandler playerInputs;
 
     private IInputHandler _curInputHandler;
+    private PlayerControls _inputActions;
+
+    public void Initiate()
+    {
+        _inputActions = new PlayerControls();
+
+        shopInputs.Initiate(_inputActions);
+        dialogInputs.Initiate(_inputActions);
+        playerInputs.Initiate(_inputActions);
+    }
 
     public void Initialize()
     {
@@ -25,11 +36,17 @@ public class InputManager : MonoBehaviour
         {
             case Inputs.PLAYER:
                 playerInputs.Enable(true);
-                GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
+                _curInputHandler = playerInputs;
+                //GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
                 break;
             case Inputs.DIALOG:
                 dialogInputs.Enable(true);
-                GetComponent<PlayerInput>().SwitchCurrentActionMap("Dialog");
+                _curInputHandler = dialogInputs;
+                //GetComponent<PlayerInput>().SwitchCurrentActionMap("Dialog");
+                break;
+            case Inputs.SHOP:
+                shopInputs.Enable(true);
+                _curInputHandler = shopInputs;
                 break;
         }
     }

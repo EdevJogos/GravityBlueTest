@@ -7,6 +7,9 @@ public class GUIManager : MonoBehaviour
     public Transform displaysHolder;
 
     private int _dialogIndex = 0;
+    private int _choiceIndex = 0;
+    private DialogChoice[] _curChoices;
+
     private Display _activeDisplay;
     private Dictionary<Displays, Display> _displays = new Dictionary<Displays, Display>();
 
@@ -54,11 +57,39 @@ public class GUIManager : MonoBehaviour
         }
     }
 
-    public void ShowDialog(string p_speaker, string p_other, Dialog p_dialog, Action<DialogResult> p_resultAction)
+    public void ShowDialog(string p_requested, string p_requisitioner, Dialog p_dialog)
+    {
+        ShowDisplay(Displays.DIALOG);
+
+        DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;
+
+        __dialogDisplay.UpdateDialogBox(p_requested, p_dialog.dialogLines[_dialogIndex].textLine);
+        _dialogIndex++;
+        
+        if (p_dialog.dialogLines.Length == _dialogIndex)
+        {
+            if(p_dialog.choices.Length > 0)
+            {
+                _curChoices = p_dialog.choices;
+                __dialogDisplay.UpdateChoicesBox(p_requisitioner, p_dialog.choices);
+                __dialogDisplay.SelectChoice(0);
+            }
+        }
+    }
+
+    public void UpdateSelectedChoice(Vector2 p_direction)
     {
         DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;
 
-        __dialogDisplay.UpdateDialogBox(p_speaker, p_dialog.dialogLines[_dialogIndex].textLine);
+        __dialogDisplay.UnselectChoice(_choiceIndex);
+        int __direction = Mathf.FloorToInt(p_direction.x + p_direction.y);
+        _choiceIndex = HelpExtensions.ClampCircle(_choiceIndex + __direction, 0, _curChoices.Length - 1);
+        __dialogDisplay.SelectChoice(_choiceIndex);
+    }
+
+    public DialogResult GetDialogResult()
+    {
+        return new DialogResult(_curChoices[_choiceIndex].id, _curChoices[_choiceIndex].data);
     }
 
     private void ActiveDisplay(Displays p_display, Action p_onShowCompleted, float p_showRatio)

@@ -63,6 +63,11 @@ public class RandomNoRepeat
     }
 }
 
+[System.Serializable]
+public struct ShopData
+{
+    public ItemsTypes itemType;
+}
 
 [System.Serializable]
 public struct Dialog
@@ -85,7 +90,8 @@ public struct DialogLine
 [System.Serializable]
 public struct DialogChoice
 {
-    public int id;
+    public DialogActions id;
+    public int data;
     public string choiceText;
 }
 
@@ -93,4 +99,10 @@ public struct DialogResult
 {
     public DialogActions action;
     public int data;
+
+    public DialogResult(DialogActions p_action, int p_data)
+    {
+        action = p_action;
+        data = p_data;
+    }
 }

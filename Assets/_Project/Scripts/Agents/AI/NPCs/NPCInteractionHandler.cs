@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class NPCInteractionHandler : CharacterInteractionHandler
 {
-    public event System.Action<Character, Dialog, System.Action<DialogResult>> onDialogRequested;
+    public event System.Action onShopRequested;
+    public event System.Action<Character, Dialog> onDialogRequested;
 
     [NonReorderable] public Dialog[] greetings;
     [NonReorderable] public Dialog[] talkDialogs;
@@ -22,7 +23,7 @@ public class NPCInteractionHandler : CharacterInteractionHandler
     private void Greet(Character p_other)
     {
         Debug.Log("NPC Greet");
-        onDialogRequested?.Invoke(p_other, greetings[know ? 1 : 0], OnDialogResultRecieved);
+        onDialogRequested?.Invoke(p_other, greetings[know ? 1 : 0]);
     }
 
     private void ExecuteAction(DialogResult p_result)
@@ -33,6 +34,7 @@ public class NPCInteractionHandler : CharacterInteractionHandler
                 break;
             case DialogActions.OPEN_SHOP:
                 Debug.Log("Open Shop");
+                onShopRequested?.Invoke();
                 break;
             case DialogActions.CONTINUE_DIALOG:
                 break;
@@ -41,7 +43,7 @@ public class NPCInteractionHandler : CharacterInteractionHandler
         }
     }
 
-    private void OnDialogResultRecieved(DialogResult p_result)
+    public void OnDialogResultRecieved(DialogResult p_result)
     {
         Debug.Log("OnDialogResultRecieved" + p_result.action);
 

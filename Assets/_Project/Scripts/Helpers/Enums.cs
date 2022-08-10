@@ -6,6 +6,8 @@
     STARTING,
     PLAY,
     PAUSE,
+    DIALOG,
+    SHOP,
 }
 
 public enum DisplayTypes
@@ -25,6 +27,7 @@ public enum Displays
     SETTINGS,
     TUTORIAL,
     DIALOG,
+    SHOP,
 }
 
 public enum SFXOccurrence
@@ -62,7 +65,7 @@ public enum Characters
 
 public enum Prefabs
 {
-
+    SHOP_ITEM_BAR,
 }
 
 public enum DialogActions
@@ -77,6 +80,7 @@ public enum Inputs
 {
     PLAYER,
     DIALOG,
+    SHOP,
 }
 
 public enum Interactions
@@ -84,4 +88,18 @@ public enum Interactions
     PICK_ITEM,
     NPC,
     NONE,
+}
+
+public enum ItemsTypes
+{
+    INGREDIENT,
+    PREPARED_FOOD,
+    CLOTHING,
+}
+
+public enum Ingredients
+{
+    EGGS,
+    SUGAR,
+    FLOUR,
 }
