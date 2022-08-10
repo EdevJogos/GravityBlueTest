@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Ingredients
+  m_Name: Items
   m_EditorClassIdentifier: 
-  m_GroupName: Ingredients
+  m_GroupName: Items
   m_Data:
     m_SerializedData: []
   m_GUID: 5c63cb5e6c3964f4fac894b46eead20d
@@ -21,7 +21,12 @@ MonoBehaviour:
     m_Address: Assets/_Project/Datas/Ingredients
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Ingredients
+    - INGREDIENTS
+  - m_GUID: e5e72476f0921274f8a759ad21838a24
+    m_Address: Assets/_Project/Datas/Clothings
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CLOTHINGS
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3fc5fb2bedc908f49bee7b042435bfc8, type: 2}
   m_SchemaSet:

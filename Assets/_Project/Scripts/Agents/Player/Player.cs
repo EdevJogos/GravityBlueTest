@@ -30,8 +30,8 @@ public class Player : Character
     {
         yield return new WaitForSeconds(1f);
 
-        Debug.Log(ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENT).Count);
-        ItemData __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENT)[0];
+        Debug.Log(ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS).Count);
+        ItemData __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS)[0];
         inventory.AddToInventory(__itemData, 5);
     }
 

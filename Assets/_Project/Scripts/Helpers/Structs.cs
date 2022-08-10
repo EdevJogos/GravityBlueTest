@@ -106,3 +106,33 @@ public struct DialogResult
         data = p_data;
     }
 }
+
+[System.Serializable]
+public struct SpriteAnimationData
+{
+    public FourDirectionAnimationData idle, walk;
+}
+
+[System.Serializable]
+public struct FourDirectionAnimationData
+{
+    public float animationSpeed;
+    public Sprite[] front, back, left, right;
+
+    public Sprite[] GetAnimationData(int p_direction)
+    {
+        switch (p_direction)
+        {
+            case 0:
+                return left;
+            case 1:
+                return back;
+            case 2:
+                return right;
+            case 3:
+                return front;
+        }
+
+        return null;
+    }
+}

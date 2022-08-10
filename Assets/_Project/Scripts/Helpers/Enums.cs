@@ -28,6 +28,7 @@ public enum Displays
     TUTORIAL,
     DIALOG,
     SHOP,
+    WARDROBE,
 }
 
 public enum SFXOccurrence
@@ -87,14 +88,16 @@ public enum Interactions
 {
     PICK_ITEM,
     NPC,
-    NONE,
+    WARDROBE,
+    NONE = 254,
 }
 
 public enum ItemsTypes
 {
-    INGREDIENT,
+    INGREDIENTS,
     PREPARED_FOOD,
-    CLOTHING,
+    CLOTHINGS,
+    BODY,
 }
 
 public enum Ingredients

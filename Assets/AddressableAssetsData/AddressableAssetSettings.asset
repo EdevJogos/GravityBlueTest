@@ -85,7 +85,8 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - Ingredients
+    - INGREDIENTS
+    - Clothings
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 65ec01958d79a06498c4445da29ab6c4, type: 2}

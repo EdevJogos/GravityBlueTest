@@ -14,14 +14,25 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
             _IngredientsDatabase.Add(__itemType, new List<ItemData>(20));
         }
 
-        Addressables.LoadAssetsAsync<IngredientData>("Ingredients", null).Completed += ItemsDatabase_LoadIngredientsCompleted;
+        Addressables.LoadAssetsAsync<ClothData>("CLOTHINGS", null).Completed += ItemsDatabase_Completed;
+        Addressables.LoadAssetsAsync<IngredientData>("INGREDIENTS", null).Completed += ItemsDatabase_LoadIngredientsCompleted;
+    }
+
+    private void ItemsDatabase_Completed(AsyncOperationHandle<IList<ClothData>> p_resultList)
+    {
+        foreach (var __cloth in p_resultList.Result)
+        {
+            _IngredientsDatabase[ItemsTypes.CLOTHINGS].Add(__cloth);
+        }
+
+        Debug.Log("ClothData Loaded");
     }
 
     private void ItemsDatabase_LoadIngredientsCompleted(AsyncOperationHandle<IList<IngredientData>> p_resultList)
     {
         foreach (var __ingredient in p_resultList.Result)
         {
-            _IngredientsDatabase[ItemsTypes.INGREDIENT].Add(__ingredient);
+            _IngredientsDatabase[ItemsTypes.INGREDIENTS].Add(__ingredient);
         }
 
         Debug.Log("Ingredients Loaded");

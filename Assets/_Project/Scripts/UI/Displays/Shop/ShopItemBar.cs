@@ -16,7 +16,7 @@ public class ShopItemBar : MonoBehaviour
         ItemData = p_data;
 
         icon.sprite = p_data.icon;
-        nameText.text = p_data.name;
+        nameText.text = p_data.itemName;
         qtText.text = "x" + p_quantity;
         valueText.text = (p_purchase ? p_data.purchaseValue : p_data.sellValue) + "";
         button.onClick.RemoveAllListeners();

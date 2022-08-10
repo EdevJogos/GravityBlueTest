@@ -149,6 +149,9 @@ public class ShopDisplay : Display
     {
         List<PlayerInventory.StockedItem> __stockedItems = _requisiterInventory.GetStockedItemsOfType(_curShopData.itemType);
 
+        if (__stockedItems == null)
+            return;
+
         int __i = 0;
 
         for (; __i < _sellBars.Count; __i++)

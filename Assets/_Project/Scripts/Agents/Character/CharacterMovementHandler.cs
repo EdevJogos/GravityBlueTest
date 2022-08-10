@@ -5,7 +5,8 @@ public class CharacterMovementHandler : MonoBehaviour
 {
     public float moveSpeed;
 
-    private Vector2 _input;
+    [System.NonSerialized] public Vector2 input;
+
     private Rigidbody2D _rb;
 
     public void Initiate()
@@ -29,12 +30,12 @@ public class CharacterMovementHandler : MonoBehaviour
 
     public void SetInput(Vector2 p_input)
     {
-        _input = p_input;
+        input = p_input;
     }
 
     private Vector2 InputVelocity()
     {
-        return _input * moveSpeed;
+        return input * moveSpeed;
     }
 
 

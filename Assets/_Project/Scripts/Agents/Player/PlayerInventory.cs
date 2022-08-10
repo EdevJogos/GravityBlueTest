@@ -83,7 +83,14 @@ public class PlayerInventory
 
     public List<StockedItem> GetStockedItemsOfType(ItemsTypes p_type)
     {
-        return itemsIventory[p_type];
+        if(itemsIventory.ContainsKey(p_type))
+        {
+            return itemsIventory[p_type];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void AddCash(int p_amount)
