@@ -5,6 +5,7 @@ public class NPCInteractionHandler : CharacterInteractionHandler
 {
     public event System.Action onShopRequested;
     public event System.Action<Character, Dialog> onDialogRequested;
+    public event System.Action onExitDialogRequested;
 
     [NonReorderable] public Dialog[] greetings;
     [NonReorderable] public Dialog[] talkDialogs;
@@ -39,6 +40,8 @@ public class NPCInteractionHandler : CharacterInteractionHandler
             case DialogActions.CONTINUE_DIALOG:
                 break;
             case DialogActions.EXIT:
+                _interaction = 0;
+                onExitDialogRequested?.Invoke();
                 break;
         }
     }

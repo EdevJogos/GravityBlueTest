@@ -1,24 +1,82 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopDisplay : Display
 {
+    public const int CREATE_SHOP = 0;
+    public const int PURCHSE_CONFIRMED = 0;
+    public const int SELL_CONFIRMED = 1;
+
+    public TMPro.TextMeshProUGUI playerCashText;
     public Transform purchaseGrid, sellGrid;
-    public override void UpdateDisplay(int p_operation, object p_data)
+
+    private PlayerInventory _requisiterInventory;
+    private ShopData _curShopData;
+    private ShopItemBar _interactedBar;
+
+    private List<ShopItemBar> _purchaseBars = new List<ShopItemBar>(10);
+    private List<ShopItemBar> _sellBars = new List<ShopItemBar>(10);
+
+    public override void Show(bool p_show, Action p_callback, float p_ratio)
     {
-        switch (p_operation)
+        if(!p_show)
         {
-            case 0:
-                object[] __datas = p_data as object[];
-                ShopData __shopData = (ShopData)__datas[0];
-                PlayerInventory __inventory = __datas[1] as PlayerInventory;
-                UpdateShop(__shopData, __inventory);
+            _requisiterInventory = null;
+            _interactedBar = null;
+
+            for (int __i = _purchaseBars.Count - 1; __i >= 0; __i--)
+            {
+                Destroy(_purchaseBars[__i].gameObject);
+            }
+
+            for (int __i = _sellBars.Count - 1; __i >= 0; __i--)
+            {
+                Destroy(_sellBars[__i].gameObject);
+            }
+
+            _purchaseBars.Clear();
+            _sellBars.Clear();
+        }
+        else
+        {
+            ShowPurchaseTab();
+        }
+
+        base.Show(p_show, p_callback, p_ratio);
+    }
+
+    public override void UpdateDisplay(int p_operation, float p_value, float p_data)
+    {
+        switch(p_operation)
+        {
+            case PURCHSE_CONFIRMED:
+                PurchaseConfirmed(p_value);
+                break;
+            case SELL_CONFIRMED:
+                SellConfirmed(p_value);
                 break;
         }
     }
 
-    private void UpdateShop(ShopData p_shopData, PlayerInventory p_inventory)
+    public override void UpdateDisplay(int p_operation, object p_data)
     {
+        switch (p_operation)
+        {
+            case CREATE_SHOP:
+                object[] __datas = p_data as object[];
+                ShopData __shopData = (ShopData)__datas[0];
+                PlayerInventory __inventory = __datas[1] as PlayerInventory;
+                CreateShop(__shopData, __inventory);
+                break;
+        }
+    }
+
+    private void CreateShop(ShopData p_shopData, PlayerInventory p_inventory)
+    {
+        _curShopData = p_shopData;
+        _requisiterInventory = p_inventory;
+
         List<ItemData> __items = ItemsDatabase.GetItemsOfType(p_shopData.itemType);
 
         for (int __i = 0; __i < __items.Count; __i++)
@@ -29,26 +87,92 @@ public class ShopDisplay : Display
             int __playerOwns = __stockedItem == null ? 0 : __stockedItem.quantity;
 
             __shopItemBar.Initialize(__items[__i], __playerOwns, true, ButtonPurchasePressed);
+
+            _purchaseBars.Add(__shopItemBar);
         }
 
-        List<PlayerInventory.StockedItem> __stockedItems = p_inventory.GetStockedItemsOfType(p_shopData.itemType);
+        UpdateSellTab();
+    }
 
-        for (int __i = 0; __i < __stockedItems.Count; __i++)
+    private void PurchaseConfirmed(float p_quantity)
+    {
+        _interactedBar.UpdateItemQuantity((int)p_quantity);
+        playerCashText.text = _requisiterInventory.cash.ToString();
+    }
+
+    private void SellConfirmed(float p_quantity)
+    {
+        Debug.Log("SellConfirmed " + p_quantity);
+        if(p_quantity == 0)
+        {
+            _sellBars.Remove(_interactedBar);
+            Destroy(_interactedBar.gameObject);
+        }
+        else
+        {
+            _interactedBar.UpdateItemQuantity((int)p_quantity);
+        }
+
+        playerCashText.text = _requisiterInventory.cash.ToString();
+    }
+
+    private void ButtonPurchasePressed(ItemData p_itemData, ShopItemBar p_bar)
+    {
+        Debug.Log("ButtonPurchasePressed " + p_itemData.itemName);
+
+        _interactedBar = p_bar;
+
+        RequestAction(0, p_itemData);
+    }
+
+    private void ButtonSellPressed(ItemData p_itemData, ShopItemBar p_bar)
+    {
+        Debug.Log("ButtonSellPressed " + p_itemData.itemName);
+
+        _interactedBar = p_bar;
+
+        RequestAction(1, p_itemData);
+    }
+
+    private void UpdatePurchaseTab()
+    {
+        for (int __i = 0; __i < _purchaseBars.Count; __i++)
+        {
+            PlayerInventory.StockedItem __stockedItem = _requisiterInventory.GetStockedItem(_purchaseBars[__i].ItemData);
+            int __playerOwns = __stockedItem == null ? 0 : __stockedItem.quantity;
+
+            _purchaseBars[__i].UpdateItemQuantity(__playerOwns);
+        }
+    }
+
+    private void UpdateSellTab()
+    {
+        List<PlayerInventory.StockedItem> __stockedItems = _requisiterInventory.GetStockedItemsOfType(_curShopData.itemType);
+
+        int __i = 0;
+
+        for (; __i < _sellBars.Count; __i++)
+        {
+            if (__stockedItems.Count == __i)
+                return;
+
+            _sellBars[__i].Initialize(__stockedItems[__i].data, __stockedItems[__i].quantity, false, ButtonSellPressed);
+        }
+
+        for (; __i < __stockedItems.Count; __i++)
         {
             ShopItemBar __shopItemBar = PrefabsDatabase.InstantiatePrefab<ShopItemBar>(Prefabs.SHOP_ITEM_BAR, 0, sellGrid);
 
             __shopItemBar.Initialize(__stockedItems[__i].data, __stockedItems[__i].quantity, false, ButtonSellPressed);
+
+            _sellBars.Add(__shopItemBar);
         }
     }
 
-    private void ButtonPurchasePressed(ItemData p_itemData)
+    private void ShowPurchaseTab()
     {
-        Debug.Log("ButtonPurchasePressed " + p_itemData.itemName);
-    }
-
-    private void ButtonSellPressed(ItemData p_itemData)
-    {
-        Debug.Log("ButtonSellPressed " + p_itemData.itemName);
+        sellGrid.gameObject.SetActive(false);
+        purchaseGrid.gameObject.SetActive(true);
     }
 
     public override void RequestAction(int p_action)
@@ -56,13 +180,17 @@ public class ShopDisplay : Display
         switch (p_action)
         {
             case 0:
-                sellGrid.gameObject.SetActive(false);
-                purchaseGrid.gameObject.SetActive(true);
+                UpdatePurchaseTab();
+                ShowPurchaseTab();
                 break;
             case 1:
+                UpdateSellTab();
 
                 purchaseGrid.gameObject.SetActive(false);
                 sellGrid.gameObject.SetActive(true);
+                break;
+            case 2:
+                RequestAction(2, null);
                 break;
         }
     }

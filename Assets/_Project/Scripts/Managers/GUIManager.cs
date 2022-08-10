@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class GUIManager : MonoBehaviour
 {
+    public event Action<ItemData> onItemPurchaseRequested;
+    public event Action<ItemData> onItemSellRequested;
+    public event Action onShopCloseRequested;
+
     public Transform displaysHolder;
 
     private int _dialogIndex = 0;
@@ -16,6 +20,7 @@ public class GUIManager : MonoBehaviour
     public void Initiate()
     {
         Display.onActionRequested += OnActionRequested;
+        Display.onDataActionRequested += OnDataActionRequested;
 
         foreach (Transform __transform in displaysHolder)
         {
@@ -92,6 +97,12 @@ public class GUIManager : MonoBehaviour
         return new DialogResult(_curChoices[_choiceIndex].id, _curChoices[_choiceIndex].data);
     }
 
+    public void FinishDialog()
+    {
+        _dialogIndex = 0;
+        _choiceIndex = 0;
+    }
+
     private void ActiveDisplay(Displays p_display, Action p_onShowCompleted, float p_showRatio)
     {
         _activeDisplay = _displays[p_display];
@@ -141,4 +152,24 @@ public class GUIManager : MonoBehaviour
         }
     }
 
+    private void OnDataActionRequested(Displays p_id, int p_action, object p_data)
+    {
+        switch (p_id)
+        {
+            case Displays.SHOP:
+                switch(p_action)
+                {
+                    case 0:
+                        onItemPurchaseRequested?.Invoke(p_data as ItemData);
+                        break;
+                    case 1:
+                        onItemSellRequested?.Invoke(p_data as ItemData);
+                        break;
+                    case 2:
+                        onShopCloseRequested?.Invoke();
+                        break;
+                }
+                break;
+        }
+    }
 }

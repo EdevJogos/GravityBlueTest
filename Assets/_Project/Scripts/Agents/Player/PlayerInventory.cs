@@ -15,9 +15,10 @@ public class PlayerInventory
         }
     }
 
+    public int cash = 1000;
     public Dictionary<ItemsTypes, List<StockedItem>> itemsIventory = new Dictionary<ItemsTypes, List<StockedItem>>(4);
 
-    public void AddToInventory(ItemData p_data, int p_quantity)
+    public int AddToInventory(ItemData p_data, int p_quantity)
     {
         if(!itemsIventory.ContainsKey(p_data.itemType))
         {
@@ -29,10 +30,36 @@ public class PlayerInventory
         if(__stockedItem == null)
         {
             itemsIventory[p_data.itemType].Add(new StockedItem(p_quantity, p_data));
+
+            return p_quantity;
         }
         else
         {
             __stockedItem.quantity += p_quantity;
+
+            return __stockedItem.quantity;
+        }
+    }
+
+    public int RemoveFromInventory(ItemData p_data, int p_quantity)
+    {
+        StockedItem __stockedItem = GetStockedItem(p_data);
+        Debug.Log("RemoveFromInventory have " + __stockedItem.quantity + " remove " + p_quantity);
+        int __owns = __stockedItem.quantity;
+
+        __owns = HelpExtensions.ClampMin0(__owns - p_quantity);
+
+        if(__owns == 0)
+        {
+            itemsIventory[p_data.itemType].Remove(__stockedItem);
+
+            return 0;
+        }
+        else
+        {
+            __stockedItem.quantity = __owns;
+
+            return __owns;
         }
     }
 
@@ -57,5 +84,10 @@ public class PlayerInventory
     public List<StockedItem> GetStockedItemsOfType(ItemsTypes p_type)
     {
         return itemsIventory[p_type];
+    }
+
+    public void AddCash(int p_amount)
+    {
+        cash = HelpExtensions.ClampMin0(cash + p_amount);
     }
 }

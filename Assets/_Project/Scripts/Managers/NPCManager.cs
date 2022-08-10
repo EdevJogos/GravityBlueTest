@@ -5,6 +5,7 @@ public class NPCManager : MonoBehaviour
 {
     public event System.Action<NPC, ShopData> onShopRequested;
     public event System.Action<string, string, Dialog> onStartDialogRequested;
+    public event System.Action onDialogExitRequested;
 
     private Character _requisitioner;
     private NPC _requested;
@@ -12,13 +13,19 @@ public class NPCManager : MonoBehaviour
     public void Initiate()
     {
         NPC.OnDialogRequested += NPC_OnStartDialogRequested;
+        NPC.OnExitDialogRequested += NPC_OnExitDialogRequested;
         NPC.OnShopRequested += NPC_OnShopRequested;
     }
-
 
     public void OnDialogOptionConfirmed(DialogResult p_result)
     {
         _requested.NPCInteractionHandler.OnDialogResultRecieved(p_result);
+    }
+
+    public void FinishInteraction()
+    {
+        _requisitioner = null;
+        _requested = null;
     }
 
     private void NPC_OnStartDialogRequested(NPC p_npc, Character p_other, Dialog p_dialog)
@@ -32,6 +39,11 @@ public class NPCManager : MonoBehaviour
         string __requisitionerName = __know ? _requisitioner.realName : _requisitioner.genericName;
 
         onStartDialogRequested?.Invoke(__requestedName, __requisitionerName, p_dialog);
+    }
+
+    private void NPC_OnExitDialogRequested()
+    {
+        onDialogExitRequested?.Invoke();
     }
 
     private void NPC_OnShopRequested(NPC p_npc, ShopData p_shopData)
