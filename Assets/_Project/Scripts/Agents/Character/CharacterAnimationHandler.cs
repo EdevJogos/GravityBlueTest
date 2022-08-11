@@ -10,8 +10,8 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     //public float animationSpeed;
 
+    public int lastDirIndex = 3;
     private int _animationIndex = 0;
-    private int _lastDirIndex = 3;
     private float _animationTimer;
 
     public void Initiate()
@@ -21,12 +21,12 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     public void Tick(Vector2 p_moveDir)
     {
-        int __dirIndex = p_moveDir.y > 0 ? 1 : p_moveDir.y < 0 ? 3 : p_moveDir.x > 0 ? 2 : p_moveDir.x < 0 ? 0 : _lastDirIndex;
+        int __dirIndex = p_moveDir.y > 0 ? 1 : p_moveDir.y < 0 ? 3 : p_moveDir.x > 0 ? 2 : p_moveDir.x < 0 ? 0 : lastDirIndex;
 
-        if(_lastDirIndex != __dirIndex)
+        if(lastDirIndex != __dirIndex)
         {
             _animationTimer = 0;
-            _lastDirIndex = __dirIndex;
+            lastDirIndex = __dirIndex;
         }
 
         _animationTimer -= Time.deltaTime;
