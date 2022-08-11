@@ -67,6 +67,7 @@ public enum Characters
 public enum Prefabs
 {
     SHOP_ITEM_BAR,
+    WARDROBE_ITEM_BAR,
 }
 
 public enum DialogActions

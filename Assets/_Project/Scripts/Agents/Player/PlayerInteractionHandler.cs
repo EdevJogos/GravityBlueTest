@@ -37,6 +37,7 @@ public class PlayerInteractionHandler : CharacterInteractionHandler
         switch (p_interact.GetInteraction())
         {
             case Interactions.NPC:
+            case Interactions.WARDROBE:
                 Debug.Log("Interactions.NPC");
                 __interacter.ExecuteAction(GetComponent<Character>());
                 break;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ClothData01
   m_EditorClassIdentifier: 
   itemType: 2
-  itemName: Basic Outfit
+  itemName: Default Outfit
   icon: {fileID: -1578742552, guid: 6de9c87ded060954caf85bf78532dced, type: 3}
   purchaseValue: 150
   sellValue: 75

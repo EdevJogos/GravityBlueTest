@@ -51,6 +51,10 @@ public class GameCEO : MonoBehaviour
         guiManager.onItemPurchaseRequested += GuiManager_onItemPurchaseRequested;
         guiManager.onItemSellRequested += GuiManager_onItemSellRequested;
         guiManager.onShopCloseRequested += GuiManager_onShopCloseRequested;
+        guiManager.onWearClothingRequested += GuiManager_onWearClothingRequested;
+        guiManager.onExitWardrobeRequested += GuiManager_onExitWardrobeRequested;
+
+        playerManager.onWardrobeRequested += PlayerManager_onWardrobeRequested;
 
         nPCManager.onStartDialogRequested += NPCManager_onStartDialogRequested;
         nPCManager.onDialogExitRequested += NPCManager_onDialogExitRequested;
@@ -60,9 +64,10 @@ public class GameCEO : MonoBehaviour
         audioManager.Initate();
         guiManager.Initiate();
         inputManager.Initiate();
+        playerManager.Initiate();
         nPCManager.Initiate();
     }
-    
+
     public void Initialize()
     {
         audioManager.Initialize();
@@ -171,11 +176,31 @@ public class GameCEO : MonoBehaviour
         FinishInteraction();
     }
 
+    private void GuiManager_onWearClothingRequested(ClothData p_clothData)
+    {
+        playerManager.SwitchClothes(p_clothData);
+        FinishInteraction();
+    }
+
+    private void GuiManager_onExitWardrobeRequested()
+    {
+        FinishInteraction();
+    }
+
     #endregion
 
     //-----------------SCORE MANAGER----------------
 
     //-----------------STAGE MANAGER----------------
 
-    //-----------------AGENTS MANAGER----------------
+    #region//-----------------PLAYER MANAGER----------------
+
+    private void PlayerManager_onWardrobeRequested()
+    {
+        inputManager.SwitchInput(Inputs.SHOP);
+        guiManager.UpdateDisplay(Displays.WARDROBE, 0, playerManager.PlayerInventory);
+        guiManager.ShowDisplay(Displays.WARDROBE);
+    }
+
+    #endregion
 }

@@ -356,10 +356,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4538110412524711007}
   - component: {fileID: 4538110412524711005}
-  - component: {fileID: 909563205007205608}
+  - component: {fileID: 1050818386029306923}
   - component: {fileID: 4538110412524711006}
   m_Layer: 5
-  m_Name: ShopItemBar
+  m_Name: WardrobetemBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4538110412524710976}
   m_CullTransparentMesh: 1
---- !u!114 &909563205007205608
+--- !u!114 &1050818386029306923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -406,13 +406,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4538110412524710976}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e594a20cf562b0e478f3e2a1f4e6cec2, type: 3}
+  m_Script: {fileID: 11500000, guid: bce96aa18ab9249439e4e95b5e5acf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barImage: {fileID: 4538110412524711006}
   icon: {fileID: 4538110411516206494}
   nameText: {fileID: 4538110411276864660}
-  valueText: {fileID: 4538110412749784815}
   qtText: {fileID: 4538110412394464159}
   button: {fileID: 1250633007320241551}
 --- !u!114 &4538110412524711006
@@ -435,7 +433,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3d53f05d70093914cadf526600e4a0b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eab5eed2e2bbba84e9a1d7ca8e3bd539, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -452,13 +450,57 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4538110412524711007}
     m_Modifications:
+    - target: {fileID: 36061101083617528, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eab5eed2e2bbba84e9a1d7ca8e3bd539, type: 3}
+    - target: {fileID: 36061101083617528, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eab5eed2e2bbba84e9a1d7ca8e3bd539, type: 3}
+    - target: {fileID: 36061101083617528, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eab5eed2e2bbba84e9a1d7ca8e3bd539, type: 3}
+    - target: {fileID: 36061101083617528, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eab5eed2e2bbba84e9a1d7ca8e3bd539, type: 3}
+    - target: {fileID: 3396173823052888984, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_text
+      value: Wear
+      objectReference: {fileID: 0}
     - target: {fileID: 3396173823052888998, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
       propertyPath: m_Name
-      value: Text[Value]
+      value: Text[Wear]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396173823052888999, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 91.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396173823052888999, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396173823149716324, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396173823149716325, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396173823149716325, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 144
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396173823149716326, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3396173823632454972, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
       propertyPath: m_Name
-      value: Button[Buy]
+      value: Button[Wear]
       objectReference: {fileID: 0}
     - target: {fileID: 3396173823632454973, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
       propertyPath: m_Pivot.x
@@ -544,6 +586,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3396173823632454974, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f183f26ab53942d488786591039d9ee7, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
 --- !u!114 &1250633007320241551 stripped
@@ -562,14 +608,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3396173823632454973, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
   m_PrefabInstance: {fileID: 1286685312310836599}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4538110412749784815 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3396173823052888984, guid: b0cb8474fad50eb4fb99877c8df945d0, type: 3}
-  m_PrefabInstance: {fileID: 1286685312310836599}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

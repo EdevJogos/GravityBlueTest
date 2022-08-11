@@ -7,6 +7,8 @@ public class GUIManager : MonoBehaviour
     public event Action<ItemData> onItemPurchaseRequested;
     public event Action<ItemData> onItemSellRequested;
     public event Action onShopCloseRequested;
+    public event Action<ClothData> onWearClothingRequested;
+    public event Action onExitWardrobeRequested;
 
     public Transform displaysHolder;
 
@@ -167,6 +169,17 @@ public class GUIManager : MonoBehaviour
                         break;
                     case 2:
                         onShopCloseRequested?.Invoke();
+                        break;
+                }
+                break;
+            case Displays.WARDROBE:
+                switch (p_action)
+                {
+                    case 0:
+                        onWearClothingRequested?.Invoke(p_data as ClothData);
+                        break;
+                    case 1:
+                        onExitWardrobeRequested?.Invoke();
                         break;
                 }
                 break;

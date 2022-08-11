@@ -6,7 +6,7 @@ public class CharacterAnimationHandler : MonoBehaviour
     public SpriteRenderer outfitRenderer;
 
     public BodyData bodyData;
-    public ClothData outfitData;
+    public ClothData clothData;
 
     //public float animationSpeed;
 
@@ -38,14 +38,14 @@ public class CharacterAnimationHandler : MonoBehaviour
             if(p_moveDir.magnitude > 0)
             {
                 bodyRenderer.sprite = bodyData.animationData.walk.GetAnimationData(__dirIndex)[_animationIndex];
-                outfitRenderer.sprite = outfitData.animationData.walk.GetAnimationData(__dirIndex)[_animationIndex];
+                outfitRenderer.sprite = clothData.animationData.walk.GetAnimationData(__dirIndex)[_animationIndex];
 
                 _animationTimer = bodyData.animationData.walk.animationSpeed;
             }
             else
             {
                 bodyRenderer.sprite = bodyData.animationData.idle.GetAnimationData(__dirIndex)[_animationIndex];
-                outfitRenderer.sprite = outfitData.animationData.idle.GetAnimationData(__dirIndex)[_animationIndex];
+                outfitRenderer.sprite = clothData.animationData.idle.GetAnimationData(__dirIndex)[_animationIndex];
 
                 _animationTimer = bodyData.animationData.idle.animationSpeed;
             }

@@ -67,6 +67,10 @@ public class RandomNoRepeat
 public struct ShopData
 {
     public ItemsTypes itemType;
+    public Sprite panelSprite;
+    public Sprite itemBarSprite;
+    public Sprite buttonNormalSprite;
+    public Sprite buttonPressedSprite;
 }
 
 [System.Serializable]

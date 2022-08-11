@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopDisplay : Display
 {
@@ -8,13 +9,16 @@ public class ShopDisplay : Display
     public const int PURCHSE_CONFIRMED = 0;
     public const int SELL_CONFIRMED = 1;
 
+    public UITabButton purchaseButton, sellButton;
+    public Image panelImage;
     public TMPro.TextMeshProUGUI playerCashText;
     public Transform purchaseGrid, sellGrid;
 
-    private PlayerInventory _requisiterInventory;
+    private SpriteState _spriteState;
     private ShopData _curShopData;
+    private PlayerInventory _requisiterInventory;
     private ShopItemBar _interactedBar;
-
+    
     private List<ShopItemBar> _purchaseBars = new List<ShopItemBar>(10);
     private List<ShopItemBar> _sellBars = new List<ShopItemBar>(10);
 
@@ -77,6 +81,8 @@ public class ShopDisplay : Display
         _curShopData = p_shopData;
         _requisiterInventory = p_inventory;
 
+        SetVisual(p_shopData);
+
         List<ItemData> __items = ItemsDatabase.GetItemsOfType(p_shopData.itemType);
 
         for (int __i = 0; __i < __items.Count; __i++)
@@ -86,13 +92,27 @@ public class ShopDisplay : Display
             PlayerInventory.StockedItem __stockedItem = p_inventory.GetStockedItem(__items[__i]);
             int __playerOwns = __stockedItem == null ? 0 : __stockedItem.quantity;
 
-            __shopItemBar.Initialize(__items[__i], __playerOwns, true, ButtonPurchasePressed);
+            __shopItemBar.Initialize(_curShopData.itemBarSprite, _curShopData.buttonNormalSprite, _spriteState, __items[__i], __playerOwns, true, ButtonPurchasePressed);
 
             _purchaseBars.Add(__shopItemBar);
         }
 
         UpdateSellTab();
     }
+
+    private void SetVisual(ShopData p_shopData)
+    {
+        panelImage.sprite = p_shopData.panelSprite;
+
+        _spriteState = new SpriteState();
+        _spriteState.selectedSprite = p_shopData.buttonPressedSprite;
+        _spriteState.pressedSprite = p_shopData.buttonPressedSprite;
+        _spriteState.highlightedSprite = p_shopData.buttonPressedSprite;
+
+        purchaseButton.SetVisual(p_shopData.buttonNormalSprite, p_shopData.buttonPressedSprite);
+        sellButton.SetVisual(p_shopData.buttonNormalSprite, p_shopData.buttonPressedSprite);
+    }
+        
 
     private void PurchaseConfirmed(float p_quantity)
     {
@@ -159,14 +179,14 @@ public class ShopDisplay : Display
             if (__stockedItems.Count == __i)
                 return;
 
-            _sellBars[__i].Initialize(__stockedItems[__i].data, __stockedItems[__i].quantity, false, ButtonSellPressed);
+            _sellBars[__i].Initialize(_curShopData.itemBarSprite, _curShopData.buttonNormalSprite, _spriteState, __stockedItems[__i].data, __stockedItems[__i].quantity, false, ButtonSellPressed);
         }
 
         for (; __i < __stockedItems.Count; __i++)
         {
             ShopItemBar __shopItemBar = PrefabsDatabase.InstantiatePrefab<ShopItemBar>(Prefabs.SHOP_ITEM_BAR, 0, sellGrid);
 
-            __shopItemBar.Initialize(__stockedItems[__i].data, __stockedItems[__i].quantity, false, ButtonSellPressed);
+            __shopItemBar.Initialize(_curShopData.itemBarSprite, _curShopData.buttonNormalSprite, _spriteState, __stockedItems[__i].data, __stockedItems[__i].quantity, false, ButtonSellPressed);
 
             _sellBars.Add(__shopItemBar);
         }
@@ -174,6 +194,7 @@ public class ShopDisplay : Display
 
     private void ShowPurchaseTab()
     {
+        purchaseButton.Select(true);
         sellGrid.gameObject.SetActive(false);
         purchaseGrid.gameObject.SetActive(true);
     }

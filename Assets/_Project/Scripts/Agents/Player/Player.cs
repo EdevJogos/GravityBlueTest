@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player : Character
 {
+    public CharacterAnimationHandler AnimationHandler => GetComponent<CharacterAnimationHandler>();
+
     public PlayerInputsHandler playerInputHandler;
 
     [System.NonSerialized] public PlayerInventory inventory;
