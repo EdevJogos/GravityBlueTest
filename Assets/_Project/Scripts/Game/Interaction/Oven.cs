@@ -1,16 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Oven : MonoBehaviour, IInteract
 {
     public Interacter interacter;
-    
-    public IngredientData[] requiredIngredients;
     public BreadTable[] breadTables;
+
     private int _tableIndex = 0;
+    private List<ItemData> _requiredIngredients;
 
     private void Awake()
     {
         interacter.ExecuteAction = ExecuteAction;
+    }
+
+    private IEnumerator Start()
+    {
+        while (!ItemsDatabase.IngredientsLoaded)
+        {
+            yield return null;
+        }
+
+        _requiredIngredients = ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS);
     }
 
     public bool CanInteract => true;
@@ -45,10 +57,12 @@ public class Oven : MonoBehaviour, IInteract
     {
         Player __player = p_character as Player;
 
-        for (int __i = 0; __i < requiredIngredients.Length; __i++)
+        Debug.Log("requiredIngredients " + _requiredIngredients.Count);
+        for (int __i = 0; __i < _requiredIngredients.Count; __i++)
         {
-            PlayerInventory.StockedItem __stockedItem = __player.inventory.GetStockedItem(requiredIngredients[__i]);
-
+            Debug.Log("Required ingredient " + _requiredIngredients[__i]);
+            PlayerInventory.StockedItem __stockedItem = __player.inventory.GetStockedItem(_requiredIngredients[__i]);
+            Debug.Log("Stocked item " + __stockedItem);
             if(__stockedItem == null)
             {
                 return false;
@@ -62,9 +76,9 @@ public class Oven : MonoBehaviour, IInteract
     {
         Player __player = p_character as Player;
 
-        for (int __i = 0; __i < requiredIngredients.Length; __i++)
+        for (int __i = 0; __i < _requiredIngredients.Count; __i++)
         {
-            __player.inventory.RemoveFromInventory(requiredIngredients[__i], 1);
+            __player.inventory.RemoveFromInventory(_requiredIngredients[__i], 1);
         }
     }
 }

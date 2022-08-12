@@ -30,16 +30,20 @@ public class Player : Character
 
     private IEnumerator RoutineSetBasicItems()
     {
-        while(!ItemsDatabase.Loaded)
+        while (!ItemsDatabase.IngredientsLoaded)
         {
             yield return null;
         }
 
-        //yield return new WaitForSeconds(1f);
-
         Debug.Log(ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS).Count);
         ItemData __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS)[0];
         inventory.AddToInventory(__itemData, 5);
+
+        while (!ItemsDatabase.ClothingLoaded)
+        {
+            yield return null;
+        }
+
         __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.CLOTHINGS)[5];
         inventory.AddToInventory(__itemData, 1);
         __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.CLOTHINGS)[0];

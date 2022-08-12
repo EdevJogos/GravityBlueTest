@@ -5,7 +5,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ItemsDatabase : MonoBehaviour, IDatabase
 {
-    public static bool Loaded = false;
+    public static bool ClothingLoaded = false, IngredientsLoaded = false;
 
     private static Dictionary<ItemsTypes, List<ItemData>> _ItemsDatabase = new Dictionary<ItemsTypes, List<ItemData>>(2);
 
@@ -28,6 +28,8 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
         }
 
         Debug.Log("ClothData Loaded");
+
+        ClothingLoaded = true;
     }
 
     private void ItemsDatabase_LoadIngredientsCompleted(AsyncOperationHandle<IList<IngredientData>> p_resultList)
@@ -39,7 +41,7 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
 
         Debug.Log("Ingredients Loaded");
 
-        Loaded = true;
+        IngredientsLoaded = true;
     }
 
     public static List<ItemData> GetItemsOfType(ItemsTypes p_type)

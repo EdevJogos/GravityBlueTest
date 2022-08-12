@@ -14,7 +14,7 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        _checkTimeRange = new Range(4f, 7f);
+        _checkTimeRange = new Range(4f, 8f);
 
         for (int __i = 0; __i < costumers.Length; __i++)
         {
