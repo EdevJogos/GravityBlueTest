@@ -29,6 +29,9 @@ public class PlayerInteractionHandler : CharacterInteractionHandler
         }
     }
 
+    /// <summary>
+    /// Executes the method assigned to the interacter in the interacted object or character.
+    /// </summary>
     private void Interact(IInteract p_interact)
     {
         Interacter __interacter = p_interact.Interact();
@@ -47,6 +50,9 @@ public class PlayerInteractionHandler : CharacterInteractionHandler
         _priorityInteractions.Clear();
     }
 
+    /// <summary>
+    /// If the interaction gets more than one interactable, this will return the one with the highest priority of interaction
+    /// </summary>
     private IInteract GetHighestPriorityInteraction()
     {
         _priorityInteractions.Clear();

@@ -28,6 +28,9 @@ public class InputManager : MonoBehaviour
         _curInputHandler = playerInputs;
     }
 
+    /// <summary>
+    /// Switch active inputs callbacks.
+    /// </summary>
     public void SwitchInput(Inputs p_input)
     {
         _curInputHandler.Enable(false);
@@ -37,12 +40,10 @@ public class InputManager : MonoBehaviour
             case Inputs.PLAYER:
                 playerInputs.Enable(true);
                 _curInputHandler = playerInputs;
-                //GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
                 break;
             case Inputs.DIALOG:
                 dialogInputs.Enable(true);
                 _curInputHandler = dialogInputs;
-                //GetComponent<PlayerInput>().SwitchCurrentActionMap("Dialog");
                 break;
             case Inputs.SHOP:
                 shopInputs.Enable(true);

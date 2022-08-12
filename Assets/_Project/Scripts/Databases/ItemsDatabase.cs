@@ -11,6 +11,7 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
 
     public void Initiate()
     {
+        //Loads all scriptable objects by an adresseble label and set them on a easy to acess dictionary based on the type of item.
         foreach (ItemsTypes __itemType in System.Enum.GetValues(typeof(ItemsTypes)))
         {
             _ItemsDatabase.Add(__itemType, new List<ItemData>(20));

@@ -7697,7 +7697,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'You can
 
-    change your clothes here.'
+    change your clothes here.
+
+    [E] or [Space]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8fd4a6cb90709c24fbd30be4ad776150, type: 2}
   m_sharedMaterial: {fileID: 458295689992808375, guid: 8fd4a6cb90709c24fbd30be4ad776150, type: 2}
@@ -10573,10 +10575,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interacter:
     interaction: 0
-  requiredIngredients:
-  - {fileID: 11400000, guid: 3e93e7410b9d2b34fbff1a9dea6c15a4, type: 2}
-  - {fileID: 11400000, guid: d238834356a3a5a41815ea711859a896, type: 2}
-  - {fileID: 11400000, guid: 27033bb7c8c443445a80d59b3b00abb2, type: 2}
   breadTables:
   - {fileID: 134290531}
   - {fileID: 922985840}

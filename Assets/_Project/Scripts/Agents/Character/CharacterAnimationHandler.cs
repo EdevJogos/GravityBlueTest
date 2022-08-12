@@ -21,14 +21,16 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     public void Tick(Vector2 p_moveDir)
     {
+        //Sets the direction in wich the character is currently moving.
         int __dirIndex = p_moveDir.y > 0 ? 1 : p_moveDir.y < 0 ? 3 : p_moveDir.x > 0 ? 0 : p_moveDir.x < 0 ? 2 : lastDirIndex;
-
+        //Holds the last direction of movement so that the character keps facing it on no input is received.
         if(lastDirIndex != __dirIndex)
         {
             _animationTimer = 0;
             lastDirIndex = __dirIndex;
         }
 
+        //Custom animator to have the body and the clothing in sync and also to be easy to change them.
         _animationTimer -= Time.deltaTime;
 
         if(_animationTimer <= 0)

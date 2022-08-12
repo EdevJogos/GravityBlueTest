@@ -54,6 +54,14 @@ public class GUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Shows the display passed as p_display executing the In animation of it, also hides the current active display,
+    /// if thre is one, by executing the Out animation of it.
+    /// </summary>
+    /// <param name="p_display">The id of the display to be shown</param>
+    /// <param name="p_onShowCompleted">A call back to when the In animation of the display is completed</param>
+    /// <param name="p_hideRatio">If you want the callback to be called faster (ratio from 0 to 1)</param>
+    /// <param name="p_showRatio">If you want the callback to be called faster (ratio from 0 to 1)</param>
     public void ShowDisplay(Displays p_display, Action p_onShowCompleted = null, float p_hideRatio = 1f, float p_showRatio = 1f)
     {
         if (_activeDisplay == null || (_activeDisplay != null && _activeDisplay.ID != p_display))
@@ -69,6 +77,9 @@ public class GUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Shows the dialog box and set the text and dialog data acording to the p_dialog paramenter.
+    /// </summary>
     public void StartDialog(NPC p_requested, Character p_requisitioner, Dialog p_dialog)
     {
         _curDialog = p_dialog;
@@ -99,6 +110,7 @@ public class GUIManager : MonoBehaviour
 
             _dialogIndex++;
 
+            //If it is the last line of dialog check for choices if there is show them.
             if (_curDialog.dialogLines.Length == _dialogIndex)
             {
                 if (_curDialog.choices.Length > 0)
@@ -118,6 +130,9 @@ public class GUIManager : MonoBehaviour
         }
     }  
 
+    /// <summary>
+    /// Moves the pointer of the current selected choice.
+    /// </summary>
     public void UpdateSelectedChoice(Vector2 p_direction)
     {
         DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;
@@ -142,6 +157,7 @@ public class GUIManager : MonoBehaviour
         _activeDisplay.Show(true, p_onShowCompleted, p_showRatio);
     }
 
+    //A series of methods that can be used to pass that to a display.
     #region Update Display Calls
 
     public void UpdateDisplay(Displays p_id, int p_operation, bool p_value)
@@ -171,6 +187,9 @@ public class GUIManager : MonoBehaviour
         return _displays[p_id].GetData(p_data);
     }
 
+    /// <summary>
+    /// Callback lister for when the RequestAction method is called on a display.
+    /// </summary>
     private void OnActionRequested(Displays p_id, int p_action)
     {
         switch (p_id)
@@ -185,6 +204,9 @@ public class GUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Callback lister for when the RequestAction method is called on a display.
+    /// </summary>
     private void OnDataActionRequested(Displays p_id, int p_action, object p_data)
     {
         switch (p_id)
