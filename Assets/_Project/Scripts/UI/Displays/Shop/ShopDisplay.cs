@@ -122,7 +122,6 @@ public class ShopDisplay : Display
 
     private void SellConfirmed(float p_quantity)
     {
-        Debug.Log("SellConfirmed " + p_quantity);
         if(p_quantity == 0)
         {
             _sellBars.Remove(_interactedBar);
@@ -138,8 +137,6 @@ public class ShopDisplay : Display
 
     private void ButtonPurchasePressed(ItemData p_itemData, ShopItemBar p_bar)
     {
-        Debug.Log("ButtonPurchasePressed " + p_itemData.itemName);
-
         _interactedBar = p_bar;
 
         RequestAction(0, p_itemData);
@@ -147,8 +144,6 @@ public class ShopDisplay : Display
 
     private void ButtonSellPressed(ItemData p_itemData, ShopItemBar p_bar)
     {
-        Debug.Log("ButtonSellPressed " + p_itemData.itemName);
-
         _interactedBar = p_bar;
 
         RequestAction(1, p_itemData);

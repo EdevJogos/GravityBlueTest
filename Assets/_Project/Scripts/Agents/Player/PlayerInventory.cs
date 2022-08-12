@@ -44,7 +44,7 @@ public class PlayerInventory
     public int RemoveFromInventory(ItemData p_data, int p_quantity)
     {
         StockedItem __stockedItem = GetStockedItem(p_data);
-        Debug.Log("RemoveFromInventory have " + __stockedItem.quantity + " remove " + p_quantity);
+        
         int __owns = __stockedItem.quantity;
 
         __owns = HelpExtensions.ClampMin0(__owns - p_quantity);

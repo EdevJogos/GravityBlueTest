@@ -25,7 +25,6 @@ public class NPCInteractionHandler : CharacterInteractionHandler
 
     private void Greet(Character p_other)
     {
-        Debug.Log("NPC Greet");
         AudioManager.PlaySFX(SFXOccurrence.NPC_HELLO);
         onDialogRequested?.Invoke(p_other, greetings[know ? 1 : 0]);
     }
@@ -39,7 +38,6 @@ public class NPCInteractionHandler : CharacterInteractionHandler
                 know = true;
                 break;
             case DialogActions.OPEN_SHOP:
-                Debug.Log("Open Shop");
                 onShopRequested?.Invoke();
                 break;
             case DialogActions.CONTINUE_TALK:
@@ -58,8 +56,6 @@ public class NPCInteractionHandler : CharacterInteractionHandler
 
     public void OnDialogResultRecieved(DialogResult p_result)
     {
-        Debug.Log("OnDialogResultRecieved" + p_result.action);
-
         ExecuteAction(p_result);
     }
 

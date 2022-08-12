@@ -11,7 +11,6 @@ public class PlayerInteractionHandler : CharacterInteractionHandler
 
     public override void RequestInteraction()
     {
-        Debug.Log("RequestInteraction");
         Collider2D[] __colliders = Physics2D.OverlapCircleAll(transform.position, 2f, interactionMask);
 
         for (int __i = 0; __i < __colliders.Length; __i++)
@@ -23,7 +22,7 @@ public class PlayerInteractionHandler : CharacterInteractionHandler
                 _interactions.Add(__IInteract);
             }
         }
-        Debug.Log("_interactions " + _interactions.Count);
+        
         if (_interactions.Count > 0)
         {
             Interact(GetHighestPriorityInteraction());
@@ -37,7 +36,6 @@ public class PlayerInteractionHandler : CharacterInteractionHandler
         switch (p_interact.GetInteraction())
         {
             case Interactions.EXECUTE_ACTION:
-                Debug.Log("Interactions.EXECUTE_ACTION");
                 __interacter.ExecuteAction(GetComponent<Character>());
                 break;
             case Interactions.PICK_ITEM:

@@ -12,9 +12,7 @@ public class DialogDisplay : Display
         bool __know = p_requested.NPCInteractionHandler.know;
         string __nnk = __know ? p_requested.realName : p_requested.genericName;
         string __pnk = __know ? p_requested.NPCInteractionHandler.knownName : p_requisitioner.genericName;
-        Debug.Log("Requisitioner " + p_requisitioner);
-        Debug.Log(__pnk);
-        Debug.Log(__pnk = __pnk.Replace("{pnr}", p_requisitioner.realName));
+
         __pnk = __pnk.Replace("{pnr}", p_requisitioner.realName);
 
         dialogBox.nameText.text = __nnk;

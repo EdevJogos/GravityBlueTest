@@ -35,7 +35,6 @@ public class Player : Character
             yield return null;
         }
 
-        Debug.Log(ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS).Count);
         ItemData __itemData = ItemsDatabase.GetItemsOfType(ItemsTypes.INGREDIENTS)[0];
         inventory.AddToInventory(__itemData, 5);
 

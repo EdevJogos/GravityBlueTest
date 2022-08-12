@@ -27,8 +27,6 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
             _ItemsDatabase[ItemsTypes.CLOTHINGS].Add(__cloth);
         }
 
-        Debug.Log("ClothData Loaded");
-
         ClothingLoaded = true;
     }
 
@@ -38,8 +36,6 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
         {
             _ItemsDatabase[ItemsTypes.INGREDIENTS].Add(__ingredient);
         }
-
-        Debug.Log("Ingredients Loaded");
 
         IngredientsLoaded = true;
     }

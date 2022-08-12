@@ -23,7 +23,6 @@ public class DialogInputsHandler : MonoBehaviour, IInputHandler
 
     public void Enable(bool p_enable)
     {
-        Debug.Log("Dialog Input set enabled to " + p_enable);
         if (p_enable) _inputActions.Dialog.Enable(); else _inputActions.Dialog.Disable();
     }
 
@@ -34,7 +33,6 @@ public class DialogInputsHandler : MonoBehaviour, IInputHandler
 
     private void Confirm_performed(InputAction.CallbackContext p_context)
     {
-        Debug.Log("Dialog enabled " + _inputActions.Dialog.enabled);
         onConfirmRequested?.Invoke();
     }
 }

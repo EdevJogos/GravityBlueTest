@@ -90,7 +90,6 @@ public class GUIManager : MonoBehaviour
 
     public void UpdateDialog()
     {
-        Debug.Log("L " + _curDialog.dialogLines.Length + " DI " + _dialogIndex);
         if (_curDialog.dialogLines.Length > _dialogIndex)
         {
             DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;

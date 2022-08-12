@@ -57,12 +57,10 @@ public class Oven : MonoBehaviour, IInteract
     {
         Player __player = p_character as Player;
 
-        Debug.Log("requiredIngredients " + _requiredIngredients.Count);
         for (int __i = 0; __i < _requiredIngredients.Count; __i++)
         {
-            Debug.Log("Required ingredient " + _requiredIngredients[__i]);
             PlayerInventory.StockedItem __stockedItem = __player.inventory.GetStockedItem(_requiredIngredients[__i]);
-            Debug.Log("Stocked item " + __stockedItem);
+            
             if(__stockedItem == null)
             {
                 return false;

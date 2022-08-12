@@ -133,7 +133,6 @@ public class GameCEO : MonoBehaviour
 
     private void NPCManager_onDialogExitRequested()
     {
-        Debug.Log("NPCManager_onDialogExitRequested");
         FinishInteraction();
     }
 
@@ -143,21 +142,18 @@ public class GameCEO : MonoBehaviour
 
     private void DialogInputs_onSelectOptionRequested(Vector2 p_direction)
     {
-        //Debug.Log("DialogInputs_onSelectOptionRequested " + p_direction);
         AudioManager.PlaySFX(SFXOccurrence.OPTION_SELECTED);
         guiManager.UpdateSelectedChoice(p_direction);
     }
 
     private void DialogInputs_onConfirmRequested()
     {
-        Debug.Log("DialogInputs_onConfirmRequested");
         AudioManager.PlaySFX(SFXOccurrence.OPTION_CONFIRMED);
         guiManager.UpdateDialog();
     }
 
     private void NPCManager_onShopRequested(NPC p_npc, ShopData p_shopData)
     {
-        Debug.Log("NPCManager_onShopRequested");
         ChangeGameState(GameState.SHOP);
         inputManager.SwitchInput(Inputs.SHOP);
         guiManager.UpdateDisplay(Displays.SHOP, ShopDisplay.CREATE_SHOP, new object[2] { p_shopData, playerManager.PlayerInventory });
@@ -191,7 +187,6 @@ public class GameCEO : MonoBehaviour
 
     private void GuiManager_onItemSellRequested(ItemData p_itemData)
     {
-        Debug.Log("GuiManager_onItemSellRequested");
         playerManager.AddCash(p_itemData.sellValue);
         int __quantity = playerManager.PlayerInventory.RemoveFromInventory(p_itemData, 1);
         guiManager.UpdateDisplay(Displays.SHOP, ShopDisplay.SELL_CONFIRMED, __quantity);
