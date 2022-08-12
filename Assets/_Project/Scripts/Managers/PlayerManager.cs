@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public event System.Action<int> onCashAltered;
     public event System.Action onWardrobeRequested;
 
+    public int PlayerCash => player.inventory.cash;
     public PlayerInventory PlayerInventory => player.inventory;
 
     public Player player;
@@ -23,11 +25,15 @@ public class PlayerManager : MonoBehaviour
     public void AddCash(int p_amount)
     {
         PlayerInventory.cash += p_amount;
+
+        onCashAltered?.Invoke(PlayerCash);
     }
 
     public void RemoveCash(int p_amount)
     {
         PlayerInventory.cash -= p_amount;
+
+        onCashAltered?.Invoke(PlayerCash);
     }
 
     public void SwitchClothes(ClothData p_data)

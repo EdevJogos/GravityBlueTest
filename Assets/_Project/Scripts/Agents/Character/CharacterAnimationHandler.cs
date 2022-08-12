@@ -21,7 +21,7 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     public void Tick(Vector2 p_moveDir)
     {
-        int __dirIndex = p_moveDir.y > 0 ? 1 : p_moveDir.y < 0 ? 3 : p_moveDir.x > 0 ? 2 : p_moveDir.x < 0 ? 0 : lastDirIndex;
+        int __dirIndex = p_moveDir.y > 0 ? 1 : p_moveDir.y < 0 ? 3 : p_moveDir.x > 0 ? 0 : p_moveDir.x < 0 ? 2 : lastDirIndex;
 
         if(lastDirIndex != __dirIndex)
         {

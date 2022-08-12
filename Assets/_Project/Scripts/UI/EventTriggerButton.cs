@@ -9,7 +9,7 @@ public class EventTriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerC
         if (!GetComponent<Button>().interactable)
             return;
 
-        AudioManager.PlaySFX(SFXOccurrence.BUTTON_SELECTED);
+        AudioManager.PlaySFX(SFXOccurrence.OPTION_SELECTED);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -17,6 +17,6 @@ public class EventTriggerButton : MonoBehaviour, IPointerEnterHandler, IPointerC
         if (!GetComponent<Button>().interactable)
             return;
 
-        AudioManager.PlaySFX(SFXOccurrence.BUTTON_PRESSED);
+        AudioManager.PlaySFX(SFXOccurrence.OPTION_CONFIRMED);
     }
 }

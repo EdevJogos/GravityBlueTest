@@ -34,9 +34,18 @@ public enum Displays
 public enum SFXOccurrence
 {
     //GAME
+    OVEN,
+    BUY,
+    SELL,
+    WEAR,
+    NPC_HELLO,
+    WARDROBE,
+    PICK_UP_BREAD,
     //UI
-    BUTTON_SELECTED = 150,
-    BUTTON_PRESSED,
+    OPTION_SELECTED = 150,
+    OPTION_CONFIRMED,
+    OPTION_DENIED,
+    CLOSE_PANEL,
     NONE = 254
 }
 
@@ -74,7 +83,8 @@ public enum DialogActions
 {
     TALK,
     OPEN_SHOP,
-    CONTINUE_DIALOG,
+    CONTINUE_TALK,
+    SET_KNOWN_NAME,
     EXIT,
 }
 
@@ -87,9 +97,8 @@ public enum Inputs
 
 public enum Interactions
 {
+    EXECUTE_ACTION,
     PICK_ITEM,
-    NPC,
-    WARDROBE,
     NONE = 254,
 }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 public class CharacterMovementHandler : MonoBehaviour
 {
     public float moveSpeed;
+    public AudioSource footSteps;
 
     [System.NonSerialized] public Vector2 input;
 
@@ -31,6 +32,17 @@ public class CharacterMovementHandler : MonoBehaviour
     public void SetInput(Vector2 p_input)
     {
         input = p_input;
+
+        if(input.magnitude > 0)
+        {
+            if(footSteps != null && !footSteps.isPlaying) 
+                footSteps.Play();
+        }
+        else
+        {
+            if (footSteps != null && footSteps.isPlaying) 
+                footSteps.Stop();
+        }
     }
 
     private Vector2 InputVelocity()

@@ -6,13 +6,23 @@ public class ChoiceBox : MonoBehaviour
     public TMPro.TextMeshProUGUI nameText;
     public TMPro.TextMeshProUGUI[] choiceTexts;
 
-    public void UpdateChoices(string p_name, DialogChoice[] p_choices)
+    public void Show(bool p_show)
     {
-        nameText.text = p_name;
+        gameObject.SetActive(p_show);
+    }
 
-        for (int __i = 0; __i < choiceTexts.Length; __i++)
+    public void UpdateChoices(Character p_requisitioner, DialogChoice[] p_choices)
+    {
+        int __i = 0;
+
+        for (; __i < p_choices.Length; __i++)
         {
-            choiceTexts[__i].text = p_choices[__i].choiceText;
+            choiceTexts[__i].text = p_choices[__i].choiceText.Replace("{pnr}", p_requisitioner.realName);
+        }
+
+        for (; __i < choiceTexts.Length; __i++)
+        {
+            choiceTexts[__i].text = "";
         }
     }
 

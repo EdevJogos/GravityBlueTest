@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GUIManager : MonoBehaviour
 {
+    public event Action<NPC, DialogResult> onDialogOptionSelected;
+
     public event Action<ItemData> onItemPurchaseRequested;
     public event Action<ItemData> onItemSellRequested;
     public event Action onShopCloseRequested;
@@ -14,7 +16,10 @@ public class GUIManager : MonoBehaviour
 
     private int _dialogIndex = 0;
     private int _choiceIndex = 0;
+    private Dialog _curDialog;
     private DialogChoice[] _curChoices;
+    [System.NonSerialized] public Character requisitioner;
+    [System.NonSerialized] public NPC requested;
 
     private Display _activeDisplay;
     private Dictionary<Displays, Display> _displays = new Dictionary<Displays, Display>();
@@ -64,25 +69,55 @@ public class GUIManager : MonoBehaviour
         }
     }
 
-    public void ShowDialog(string p_requested, string p_requisitioner, Dialog p_dialog)
+    public void StartDialog(NPC p_requested, Character p_requisitioner, Dialog p_dialog)
     {
+        _curDialog = p_dialog;
+        requested = p_requested;
+        requisitioner = p_requisitioner;
+
+        UpdateDialog();
+
         ShowDisplay(Displays.DIALOG);
+    }
 
-        DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;
+    public void StartTalk(Dialog p_dialog)
+    {
+        _dialogIndex = 0;
+        _curDialog = p_dialog;
 
-        __dialogDisplay.UpdateDialogBox(p_requested, p_dialog.dialogLines[_dialogIndex].textLine);
-        _dialogIndex++;
-        
-        if (p_dialog.dialogLines.Length == _dialogIndex)
+        UpdateDialog();
+    }
+
+    public void UpdateDialog()
+    {
+        Debug.Log("L " + _curDialog.dialogLines.Length + " DI " + _dialogIndex);
+        if (_curDialog.dialogLines.Length > _dialogIndex)
         {
-            if(p_dialog.choices.Length > 0)
+            DialogDisplay __dialogDisplay = _displays[Displays.DIALOG] as DialogDisplay;
+
+            __dialogDisplay.ShowChoicesBox(false);
+            __dialogDisplay.UpdateDialogBox(requested, requisitioner, _curDialog.dialogLines[_dialogIndex].textLine);
+
+            _dialogIndex++;
+
+            if (_curDialog.dialogLines.Length == _dialogIndex)
             {
-                _curChoices = p_dialog.choices;
-                __dialogDisplay.UpdateChoicesBox(p_requisitioner, p_dialog.choices);
-                __dialogDisplay.SelectChoice(0);
+                if (_curDialog.choices.Length > 0)
+                {
+                    __dialogDisplay.ShowChoicesBox(true);
+
+                    _curChoices = _curDialog.choices;
+                    __dialogDisplay.UpdateChoicesBox(requisitioner, _curDialog.choices);
+                    __dialogDisplay.SelectChoice(0);
+                }
             }
         }
-    }
+        else
+        {
+            DialogResult __result = _curDialog.choices.Length > 0 ? new DialogResult(_curChoices[_choiceIndex].id, _curChoices[_choiceIndex].data) : new DialogResult(DialogActions.EXIT, 0);
+            onDialogOptionSelected?.Invoke(requested, __result);
+        }
+    }  
 
     public void UpdateSelectedChoice(Vector2 p_direction)
     {
@@ -94,13 +129,10 @@ public class GUIManager : MonoBehaviour
         __dialogDisplay.SelectChoice(_choiceIndex);
     }
 
-    public DialogResult GetDialogResult()
-    {
-        return new DialogResult(_curChoices[_choiceIndex].id, _curChoices[_choiceIndex].data);
-    }
-
     public void FinishDialog()
     {
+        requested = null;
+        requisitioner = null;
         _dialogIndex = 0;
         _choiceIndex = 0;
     }

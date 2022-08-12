@@ -88,6 +88,7 @@ public struct Dialog
 [System.Serializable]
 public struct DialogLine
 {
+    [TextArea]
     public string textLine;
 }
 
@@ -128,11 +129,11 @@ public struct FourDirectionAnimationData
         switch (p_direction)
         {
             case 0:
-                return left;
+                return right;
             case 1:
                 return back;
             case 2:
-                return right;
+                return left;
             case 3:
                 return front;
         }

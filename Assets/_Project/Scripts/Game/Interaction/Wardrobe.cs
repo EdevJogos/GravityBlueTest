@@ -25,6 +25,7 @@ public class Wardrobe : MonoBehaviour, IInteract
 
     private void ExecuteAction(Character p_character)
     {
+        AudioManager.PlaySFX(SFXOccurrence.WARDROBE);
         onWardrobeRequested?.Invoke(this);
     }
 }

@@ -5,13 +5,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ItemsDatabase : MonoBehaviour, IDatabase
 {
-    private static Dictionary<ItemsTypes, List<ItemData>> _IngredientsDatabase = new Dictionary<ItemsTypes, List<ItemData>>(2);
+    public static bool Loaded = false;
+
+    private static Dictionary<ItemsTypes, List<ItemData>> _ItemsDatabase = new Dictionary<ItemsTypes, List<ItemData>>(2);
 
     public void Initiate()
     {
         foreach (ItemsTypes __itemType in System.Enum.GetValues(typeof(ItemsTypes)))
         {
-            _IngredientsDatabase.Add(__itemType, new List<ItemData>(20));
+            _ItemsDatabase.Add(__itemType, new List<ItemData>(20));
         }
 
         Addressables.LoadAssetsAsync<ClothData>("CLOTHINGS", null).Completed += ItemsDatabase_Completed;
@@ -22,7 +24,7 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
     {
         foreach (var __cloth in p_resultList.Result)
         {
-            _IngredientsDatabase[ItemsTypes.CLOTHINGS].Add(__cloth);
+            _ItemsDatabase[ItemsTypes.CLOTHINGS].Add(__cloth);
         }
 
         Debug.Log("ClothData Loaded");
@@ -32,14 +34,16 @@ public class ItemsDatabase : MonoBehaviour, IDatabase
     {
         foreach (var __ingredient in p_resultList.Result)
         {
-            _IngredientsDatabase[ItemsTypes.INGREDIENTS].Add(__ingredient);
+            _ItemsDatabase[ItemsTypes.INGREDIENTS].Add(__ingredient);
         }
 
         Debug.Log("Ingredients Loaded");
+
+        Loaded = true;
     }
 
     public static List<ItemData> GetItemsOfType(ItemsTypes p_type)
     {
-        return _IngredientsDatabase[p_type];
+        return _ItemsDatabase[p_type];
     }
 }

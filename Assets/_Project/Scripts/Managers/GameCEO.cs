@@ -48,17 +48,22 @@ public class GameCEO : MonoBehaviour
         inputManager.dialogInputs.onConfirmRequested += DialogInputs_onConfirmRequested;
         inputManager.dialogInputs.onSelectOptionRequested += DialogInputs_onSelectOptionRequested;
 
+        guiManager.onDialogOptionSelected += GuiManager_onDialogOptionSelected;
         guiManager.onItemPurchaseRequested += GuiManager_onItemPurchaseRequested;
         guiManager.onItemSellRequested += GuiManager_onItemSellRequested;
         guiManager.onShopCloseRequested += GuiManager_onShopCloseRequested;
         guiManager.onWearClothingRequested += GuiManager_onWearClothingRequested;
         guiManager.onExitWardrobeRequested += GuiManager_onExitWardrobeRequested;
 
+        playerManager.onCashAltered += PlayerManager_onCashAltered;
         playerManager.onWardrobeRequested += PlayerManager_onWardrobeRequested;
 
         nPCManager.onStartDialogRequested += NPCManager_onStartDialogRequested;
+        nPCManager.onTalkRequested += NPCManager_onTalkRequested;
         nPCManager.onDialogExitRequested += NPCManager_onDialogExitRequested;
         nPCManager.onShopRequested += NPCManager_onShopRequested;
+
+        stageManager.onBreadSold += StageManager_onBreadSold;
 
         cameraManager.Initiate();
         audioManager.Initate();
@@ -73,6 +78,9 @@ public class GameCEO : MonoBehaviour
         audioManager.Initialize();
         inputManager.Initialize();
         guiManager.Initialize();
+
+        guiManager.ShowDisplay(Displays.HUD);
+        ChangeGameState(GameState.PLAY);
     }
 
     //-----------------CEO------------------
@@ -111,11 +119,16 @@ public class GameCEO : MonoBehaviour
 
     #region //-----------------NPC MANAGER------------------
 
-    private void NPCManager_onStartDialogRequested(string p_requested, string p_requisitioner, Dialog p_dialog)
+    private void NPCManager_onStartDialogRequested(NPC p_requested, Character p_requisitioner, Dialog p_dialog)
     {
         ChangeGameState(GameState.DIALOG);
         inputManager.SwitchInput(Inputs.DIALOG);
-        guiManager.ShowDialog(p_requested, p_requisitioner, p_dialog);
+        guiManager.StartDialog(p_requested, p_requisitioner, p_dialog);
+    }
+
+    private void NPCManager_onTalkRequested(Dialog p_dialog)
+    {
+        guiManager.StartTalk(p_dialog);
     }
 
     private void NPCManager_onDialogExitRequested()
@@ -131,13 +144,15 @@ public class GameCEO : MonoBehaviour
     private void DialogInputs_onSelectOptionRequested(Vector2 p_direction)
     {
         //Debug.Log("DialogInputs_onSelectOptionRequested " + p_direction);
+        AudioManager.PlaySFX(SFXOccurrence.OPTION_SELECTED);
         guiManager.UpdateSelectedChoice(p_direction);
     }
 
     private void DialogInputs_onConfirmRequested()
     {
         Debug.Log("DialogInputs_onConfirmRequested");
-        nPCManager.OnDialogOptionConfirmed(guiManager.GetDialogResult());
+        AudioManager.PlaySFX(SFXOccurrence.OPTION_CONFIRMED);
+        guiManager.UpdateDialog();
     }
 
     private void NPCManager_onShopRequested(NPC p_npc, ShopData p_shopData)
@@ -153,6 +168,12 @@ public class GameCEO : MonoBehaviour
 
     #region//-----------------GUI MANAGER------------------
 
+    private void GuiManager_onDialogOptionSelected(NPC p_requested, DialogResult p_result)
+    {
+        AudioManager.PlaySFX(SFXOccurrence.OPTION_CONFIRMED);
+        nPCManager.OnDialogOptionConfirmed(p_requested, p_result);
+    }
+
     private void GuiManager_onItemPurchaseRequested(ItemData p_itemData)
     {
         if(playerManager.CanPurchaseItem(p_itemData.purchaseValue))
@@ -160,6 +181,11 @@ public class GameCEO : MonoBehaviour
             playerManager.RemoveCash(p_itemData.purchaseValue);
             int __quantity = playerManager.PlayerInventory.AddToInventory(p_itemData, 1);
             guiManager.UpdateDisplay(Displays.SHOP, ShopDisplay.PURCHSE_CONFIRMED, __quantity);
+            AudioManager.PlaySFX(SFXOccurrence.BUY);
+        }
+        else
+        {
+            AudioManager.PlaySFX(SFXOccurrence.OPTION_DENIED);
         }
     }
 
@@ -169,21 +195,25 @@ public class GameCEO : MonoBehaviour
         playerManager.AddCash(p_itemData.sellValue);
         int __quantity = playerManager.PlayerInventory.RemoveFromInventory(p_itemData, 1);
         guiManager.UpdateDisplay(Displays.SHOP, ShopDisplay.SELL_CONFIRMED, __quantity);
+        AudioManager.PlaySFX(SFXOccurrence.SELL);
     }
 
     private void GuiManager_onShopCloseRequested()
     {
+        AudioManager.PlaySFX(SFXOccurrence.CLOSE_PANEL);
         FinishInteraction();
     }
 
     private void GuiManager_onWearClothingRequested(ClothData p_clothData)
     {
+        AudioManager.PlaySFX(SFXOccurrence.WEAR);
         playerManager.SwitchClothes(p_clothData);
         FinishInteraction();
     }
 
     private void GuiManager_onExitWardrobeRequested()
     {
+        AudioManager.PlaySFX(SFXOccurrence.CLOSE_PANEL);
         FinishInteraction();
     }
 
@@ -191,9 +221,22 @@ public class GameCEO : MonoBehaviour
 
     //-----------------SCORE MANAGER----------------
 
-    //-----------------STAGE MANAGER----------------
+    #region//-----------------STAGE MANAGER----------------
+
+    private void StageManager_onBreadSold()
+    {
+        playerManager.AddCash(500);
+        AudioManager.PlaySFX(SFXOccurrence.BUY);
+    }
+
+    #endregion
 
     #region//-----------------PLAYER MANAGER----------------
+
+    private void PlayerManager_onCashAltered(int p_cash)
+    {
+        guiManager.UpdateDisplay(Displays.HUD, HUDDisplay.UPDATE_PLAYER_CASH, playerManager.PlayerCash);
+    }
 
     private void PlayerManager_onWardrobeRequested()
     {

@@ -120,6 +120,7 @@ public class AudioManager : MonoBehaviour
 
         __audioSource.outputAudioMixerGroup = Instance.sfxMixerGroup;
         __audioSource.loop = true;
+        __sfxSource.SetClipData(__data);
 
         PlayClip(__audioSource, __data, p_index, p_pan);
 
